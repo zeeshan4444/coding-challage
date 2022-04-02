@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const config = require(`./config/env/${process.env.NODE_ENV ? process.env.NODE_ENV : 'local' }.env.json`);
 const routes = require('./config/routes_loader');
+const mongoClient = require('./config/mongo_client');
+const { cacheModel } = require('./api/model/cache.model');
 
 let handleErrors = async (err, req, res, next) => {
   try {

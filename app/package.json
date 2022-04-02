@@ -20,6 +20,8 @@
   "homepage": "https://github.com/zeeshan4444/coding-challage#readme",
   "dependencies": {
     "express": "^4.17.3",
+    "mongodb": "^4.4.1",
+    "mongoose": "^6.2.9",
     "node-cache": "^5.1.2",
     "nodemon": "^2.0.15",
     "randomstring": "^1.2.2"

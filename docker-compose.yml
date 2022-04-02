@@ -38,7 +38,7 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=awesomeuser
             - MONGO_INITDB_ROOT_PASSWORD=iL()VeCodingXD
             # check database config database doesnot get created automitcaly
-            - MONGO_INITDB_DATABASE=cache-service
+            - MONGO_INITDB_DATABASE= 'cache-service1'
         ports: 
             - 27017:27017  
         networks:
