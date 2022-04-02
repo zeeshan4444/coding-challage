@@ -12,7 +12,7 @@ main().catch(err => console.log(err));
 async function main() {
     try {
         await mongoose.connect(url);
-        console.log('Connected!');
+        console.log('Mongoose Client Connected!');
        
     } catch (err) {
         console.log(err);

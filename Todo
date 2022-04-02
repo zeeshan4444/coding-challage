@@ -3,5 +3,5 @@ Comments
 3. If cache is flushed do we need to trigger event to remove data from database.
 4. Maybe need to check duplicate key Doesnot allow them to add. 
 5. Added comments on codebase
-6. Having issues setup mongodb with docker and use. I am fimilar with different ORM like sequelize etc.
+6. Having issues setup mongodb with docker and use and time was kind a tight and only one session I can explain mycode and approach if you allow. I am fimilar with different ORM like sequelize etc.
 

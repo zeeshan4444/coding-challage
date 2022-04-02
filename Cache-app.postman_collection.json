@@ -1,0 +1,197 @@
+{
+	"info": {
+		"_postman_id": "47da7c96-329c-4f9b-876d-cacf4c615784",
+		"name": "Cache-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add/Update data",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "IBIELIVETHESENTENCEAREMORESECURETHANUUID",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"key\":\"awesome21\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/cache/records",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"cache",
+						"records"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cache Data For Key",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "IBIELIVETHESENTENCEAREMORESECURETHANUUID",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/cache/records?key=awesome1121",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"cache",
+						"records"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "awesome1121"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Cache Keys",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "IBIELIVETHESENTENCEAREMORESECURETHANUUID",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/cache/keys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"cache",
+						"keys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Cache Keys",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "IBIELIVETHESENTENCEAREMORESECURETHANUUID",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/cache/keys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"cache",
+						"keys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Specific Cache Key",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "IBIELIVETHESENTENCEAREMORESECURETHANUUID",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/cache/keys/specific?key=awesome1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"cache",
+						"keys",
+						"specific"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "awesome1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
