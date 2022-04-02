@@ -6,6 +6,7 @@ const NodeCache = require("node-cache");
 
 const STRING_LENGTH = config.RANDOMSTRING.LENGHT ? config.RANDOMSTRING : 10;
 const CACHETTL = config.CACHE.TTL ? config.CACHE.TTL : 100;
+const CACHEMAXKEYSIZE = config.CACHE.CACHEMAXKEYSIZE ? config.CACHE.CACHEMAXKEYSIZE : 50;
 
 const cache = new NodeCache({ stdTTL: CACHETTL });
 
@@ -13,15 +14,60 @@ const cache = new NodeCache({ stdTTL: CACHETTL });
 //     console.log('key',key,value);
 // });
 
+
+/** *********************************** Check Key Exist ********************************** **/
+
+let checkKeyExistPayload = async (req, res, next ) => {
+  
+  try {
+
+    const found = req.query.key ?? req.body.key ?? req.params.key;
+
+    if ( found == undefined ) res.status(400).send("Please provide key");
+    else {
+      req.cacheKey = found;
+      return next();
+    }
+
+  } catch ( err ) {
+    res.status(400).send("Broken");
+  }
+};
+
+/** ********************************* Check Value Exist in Cache ********************  **/
+
+let addUpdateCacheRecord = async (req, res, next) => {
+
+  try {
+
+    const cacheKey = req.cacheKey;
+    const randomString = randomstring.generate(STRING_LENGTH);
+    cache.set(cacheKey, randomString);
+
+    // Better to create a error and response message as helper
+    let response = {
+      message: "Successfully created/updated cache record",
+      data: {
+        key: cacheKey,
+        value: randomString,
+      },
+    };
+
+    res.status(200).send(response);
+
+  } catch (err) {
+    console.log("err", err);
+    res.status(400).send("Broken");
+  }
+};
+
 /** ********************************* Check Value Exist in Cache ********************  **/
 
 let getSpecificCacheRecord = async (req, res, next) => {
+  
   try {
-    if (!req.query.hasOwnProperty("key") || req.query.key == undefined) {
-      res.status(400).send("Please provide key");
-    }
 
-    const cacheKey = req.query.key;
+    const cacheKey = req.cacheKey;
     let found = cache.get(cacheKey);
 
     // Better to create a error and response message as helper
@@ -55,6 +101,7 @@ let getSpecificCacheRecord = async (req, res, next) => {
 
 let getAllCacheKeys = async (req, res, next) => {
   try {
+
     const foundAllKeys = cache.keys();
     res.status(200).send({
       message: "Successfully fetched all cache keys",
@@ -71,9 +118,10 @@ let getAllCacheKeys = async (req, res, next) => {
 
 let deleteAllCacheKeys = async (req, res, next) => {
   try {
-    const foundAllKeys = cache.flushAll();
+    
+    const deletedKeys = cache.flushAll();
     res.status(200).send({
-      message: "Successfully delete all cache keys",
+      message: "Successfully delete cache keys",
       data: {},
     });
   } catch (err) {
@@ -83,16 +131,16 @@ let deleteAllCacheKeys = async (req, res, next) => {
 
 /** ******************************* Delete Specific Cache Record ***************************** **/
 
-// For now expecting one could be array of keys want to delete.
+// For now expecting one could be array of keys want to delete depend on bussiness requirement
 
 let deleteSpecificCacheRecords = async (req, res, next) => {
 
   try {
 
-    const CacheKey = req.params.key;
+    const CacheKey = req.cacheKey;
     const isExist = cache.has(CacheKey);
     
-    if ( !isExist ) res.status(400).send("Please provide valid cahe key");
+    if ( !isExist ) res.status(400).send("Please provide valid cache key");
     else { 
         cache.del(CacheKey);
         res.status(200).send({
@@ -106,17 +154,26 @@ let deleteSpecificCacheRecords = async (req, res, next) => {
   }
 };
 
-/** ****************************** Add Cache Record  ******************************** **/
+/** ****************************** check Key Count Not Exceeded ****************************** **/
 
-let addCacheRecord = async (req, res, next) => {
+let isCacheSizeExceed = async (req, res, next ) => {
+
   try {
-  } catch (err) {}
+    let found = cache.getStats();
+    if (found.keys < CACHEMAXKEYSIZE ) return next();
+    else res.status(400).send("Reached maximum cache limit");
+  } catch (err) {
+    res.status(400).send("Broken");
+  }
 };
 
+
 module.exports = {
+  checkKeyExistPayload,
+  addUpdateCacheRecord,
   getAllCacheKeys,
   getSpecificCacheRecord,
-  addCacheRecord,
   deleteAllCacheKeys,
   deleteSpecificCacheRecords,
+  isCacheSizeExceed,
 };

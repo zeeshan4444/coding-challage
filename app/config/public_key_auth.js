@@ -2,10 +2,9 @@ const config = require(`./env/${
     process.env.NODE_ENV ? process.env.NODE_ENV : "local"
   }.env.json`);
 
-
-
+  
 let checkPublicKey = async (req, res, next ) => {
-    
+
     try {
     
         const appPublicKey  =  config.PUBLICKEY;
