@@ -21,8 +21,8 @@ services:
             - 3000:3000
         depends_on:
             - mongodb
-        command: "npm start"
-        # command: "npm run dev"
+        # command: "npm start"
+        command: "npm run dev"
         logging:
             driver: "json-file"
             options:
