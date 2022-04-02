@@ -1,11 +1,12 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const config = require(`./config/env/${process.env.NODE_ENV ? process.env.NODE_ENV : 'local' }.env.json`);
+
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Cache App Health is Ok!')
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(config.APP.PORT, () => {
+  console.log(`Cache app listening on port ${config.APP.PORT}`)
 })
