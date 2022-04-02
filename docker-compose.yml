@@ -1,0 +1,53 @@
+version: "3.7"
+
+networks: 
+    main-network:
+
+volumes:
+    mongodb-data:
+
+services:
+
+    app:
+        image: node:16
+        container_name: app
+        restart: always
+        volumes: 
+            - ./app:/home/node/app
+        working_dir: /home/node/app
+        networks:
+            - main-network
+        ports: 
+            - 3000:3000
+        depends_on:
+            - mongodb
+        command: "npm start"
+        # command: "npm run dev"
+        logging:
+            driver: "json-file"
+            options:
+                max-file: "5"
+                max-size: "10m"
+    
+    mongodb:
+        # later on discuss and agree on one version
+        image: mongo:latest
+        container_name: mongodb
+        restart: always
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=awesomeuser
+            - MONGO_INITDB_ROOT_PASSWORD=iL()VeCodingXD
+            # check database config database doesnot get created automitcaly
+            - MONGO_INITDB_DATABASE=cache-service
+        ports: 
+            - 27017:27017  
+        networks:
+            - main-network
+        volumes:
+            - mongodb-data:/data/db
+        logging:
+            driver: "json-file"
+            options:
+                max-file: "5"
+                max-size: "10m"
+ 
