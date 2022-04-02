@@ -9,8 +9,7 @@ let addUpdateCacheRule = async ( ) => {
 
 let valdateAddUpdateCachePayload = async (req, res, next ) => {
   try {
-    
-
+  
       const errors = validationResult(req);
       console.log('errors',errors);
       if (errors.isEmpty()) {
