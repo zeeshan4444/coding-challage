@@ -4,6 +4,6 @@ const cacheRouter = require("../api/routes/cache.route");
 
 const version = "/api";
 
-routes.use(`${version}/cache/`, cacheRouter);
+routes.use(`${version}/cache`, cacheRouter);
 
 module.exports = routes;

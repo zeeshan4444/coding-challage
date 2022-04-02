@@ -10,10 +10,12 @@ const CACHEMAXKEYSIZE = config.CACHE.CACHEMAXKEYSIZE ? config.CACHE.CACHEMAXKEYS
 
 const cache = new NodeCache({ stdTTL: CACHETTL });
 
-// cache.on( "expired", function( key, value ){
-//     console.log('key',key,value);
-// });
 
+cache.on('expired', function( key, value ){
+    console.log('key',key,value);
+    const randomString = randomstring.generate(STRING_LENGTH);
+    cache.set(key, randomString);
+});
 
 /** *********************************** Check Key Exist ********************************** **/
 
@@ -87,6 +89,7 @@ let getSpecificCacheRecord = async (req, res, next) => {
       response.data.value = randomString;
     } else {
       console.log("Cache Hit");
+      cache.ttl(cacheKey, CACHETTL);
       response.data.value = found;
     }
 
@@ -138,9 +141,9 @@ let deleteSpecificCacheRecords = async (req, res, next) => {
   try {
 
     const CacheKey = req.cacheKey;
-    const isExist = cache.has(CacheKey);
-    
+    const isExist = cache.has(CacheKey);    
     if ( !isExist ) res.status(400).send("Please provide valid cache key");
+
     else { 
         cache.del(CacheKey);
         res.status(200).send({
@@ -159,8 +162,12 @@ let deleteSpecificCacheRecords = async (req, res, next) => {
 let isCacheSizeExceed = async (req, res, next ) => {
 
   try {
-    let found = cache.getStats();
-    if (found.keys < CACHEMAXKEYSIZE ) return next();
+
+    const foundStats = cache.getStats();
+    console.log('foundStats',foundStats);
+    const foundCache = cache.has(req.cacheKey);
+    // store the last accessed key and then delete the mimmal used cache key. 
+    if ( foundStats.keys < CACHEMAXKEYSIZE || foundCache ) return next();
     else res.status(400).send("Reached maximum cache limit");
   } catch (err) {
     res.status(400).send("Broken");
@@ -176,4 +183,5 @@ module.exports = {
   deleteAllCacheKeys,
   deleteSpecificCacheRecords,
   isCacheSizeExceed,
+  isCacheSizeExceed
 };

@@ -4,7 +4,6 @@ let addUpdateCacheRule = async ( ) => {
   return [
     body('key').not().isEmpty().trim(),
  ]
- 
 };
 
 let valdateAddUpdateCachePayload = async (req, res, next ) => {

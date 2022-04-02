@@ -9,6 +9,7 @@ const authController = require("../../config/public_key_auth");
 cacheRouter.put(
     "/records", 
     authController.checkPublicKey,
+    cacheController.isCacheSizeExceed,
     cacheController.checkKeyExistPayload,
     cacheController.addUpdateCacheRecord
 );
@@ -41,7 +42,7 @@ cacheRouter.delete(
 /** ********************************** Delete Specific keys ********************************************* **/
 // RFC 7231 section 4.3. 5 
 cacheRouter.delete(
-    "/keys/:key", 
+    "/keys/specific", 
     authController.checkPublicKey,
     cacheController.checkKeyExistPayload,
     cacheController.deleteSpecificCacheRecords,

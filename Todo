@@ -1,6 +1,5 @@
 Comments
 1. Any Authentication JWT etc.
-2. For now use atleast API key
 3. If cache is flushed do we need to trigger event to remove data from database.
-4. 
+4. Maybe need to check duplicate key Doesnot allow them to add. 
 
